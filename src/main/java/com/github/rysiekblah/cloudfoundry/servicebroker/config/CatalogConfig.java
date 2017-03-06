@@ -2,6 +2,7 @@ package com.github.rysiekblah.cloudfoundry.servicebroker.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.rysiekblah.cloudfoundry.servicebroker.config.json.EmptyListSerializer;
 import com.github.rysiekblah.cloudfoundry.servicebroker.config.json.EmptyMapSerializer;
@@ -41,6 +42,7 @@ public class CatalogConfig {
     private DashboardClientConfig dashboard;
 
     @JsonSerialize
+    @JsonProperty("plan_updateable")
     private boolean plan_updatable;
 
     @JsonSerialize(nullsUsing = EmptyListSerializer.class)

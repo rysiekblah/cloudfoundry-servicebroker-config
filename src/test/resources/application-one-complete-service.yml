@@ -3,10 +3,10 @@ cloudfoundry:
     catalog:
       services:
       - name: service_1
-        id: service_1_id
+        id: f7798cc3-b2fd-426f-9d7d-0deaf6b80365
         description: service_1 description
         tags: tag1_s1, tag2_s1, tag3_s1
-        requires: syslog_drain
+        requires: syslog_drain, route_forwarding, volume_mount
         bindable: false
         metadata:
           displayName: Service_1 Display name
@@ -14,7 +14,13 @@ cloudfoundry:
           longDescription: servce long description
           providerDisplayName: service_1 provices's name
           documentationUrl: github.com/rysiekblah
-          supportUrl:
+          supportUrl: www.rysiekblah.com/support
+          provider:
+            name: Service provider - name
+            wechat: kozlowst
+          sales:
+            phone: +86 186 2345 6778
+            emial: tkozlowski007@gmail.com
         dashboard:
           id: dashboard_1
           secret: SKJHI%^%$!!!
