@@ -1,0 +1,39 @@
+cloudfoundry:
+  servicebroker:
+    catalog:
+      services:
+      - name: service_1
+        id: service_1_id
+        description: service_1 description
+        tags: tag1_s1, tag2_s1, tag3_s1
+        requires: syslog_drain
+        bindable: false
+        metadata:
+          displayName: Service_1 Display name
+          imageUrl: http://example1.com/image.png
+          longDescription: servce long description
+          providerDisplayName: service_1 provices's name
+          documentationUrl: github.com/rysiekblah
+          supportUrl:
+        dashboard:
+          id: dashboard_1
+          secret: SKJHI%^%$!!!
+          redirect_uri: examplw11.com
+        plan_updatable: true
+        plans:
+        - id: basic
+          name: basic plan for map
+          description: this is basic plan
+          metadata:
+            bullets:
+            - feature#1
+            - feature#1
+            costs:
+            - amount:
+                cny: 120
+              unit: MONTHLY
+            - amount:
+                cny: 699
+              unit: YEARLY
+            free: true
+            bindable: true
