@@ -65,7 +65,36 @@ cloudfoundry:
 
 ## Usage
 
-TBD
+This library is integrated with [spring-cloud-cloudfoundry-service-broker](https://github.com/spring-cloud/spring-cloud-cloudfoundry-service-broker). Using spring-cloud-cloudfoundry-service-broker you have to create create your own config or hardcode it.
+
+Example:
+```Java
+@Configuration
+public class CatalogConfig {
+	
+	@Bean
+	public Catalog catalog() {
+		return new Catalog(Collections.singletonList(
+				new ServiceDefinition(
+						"mongodb-service-broker",
+						"mongodb",
+						"A simple MongoDB service broker implementation",
+						true,
+						false,
+						Collections.singletonList(
+								new Plan("mongo-plan",
+										"default",
+										"This is a default mongo plan.  All services are created equally.",
+										getPlanMetadata())),
+						Arrays.asList("mongodb", "document"),
+						getServiceDefinitionMetadata(),
+						null,
+						null)));
+            
+            ....
+```
+
+Using this library **cloudfoundry-servicebroker-config** all you need is to add it to dependency in pom or gradle script and put your config YML to resources, or integrate it with config server. **It does everything for you, no coding in terms of configuration.**
 
 ## Limitations
 
