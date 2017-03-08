@@ -1,0 +1,32 @@
+
+apply plugin: 'base'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+
+sourceCompatibility = 1.8
+
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-snapshot" }
+        mavenLocal()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-milestone" }
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile 'org.springframework.cloud:spring-cloud-cloudfoundry-service-broker:1.0.0.RELEASE'
+    compile group: 'com.github.rysiekblah', name: 'cloudfoundry-servicebroker-config', version: '1.0.0-SNAPSHOT'
+}

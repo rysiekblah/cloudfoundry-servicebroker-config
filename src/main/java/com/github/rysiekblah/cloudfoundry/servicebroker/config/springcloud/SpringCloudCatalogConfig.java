@@ -4,6 +4,9 @@ import com.github.rysiekblah.cloudfoundry.servicebroker.config.CatalogConfig;
 import com.github.rysiekblah.cloudfoundry.servicebroker.config.PlanConfig;
 import com.github.rysiekblah.cloudfoundry.servicebroker.config.ServicesConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.cloud.servicebroker.model.Catalog;
 import org.springframework.cloud.servicebroker.model.Plan;
 import org.springframework.cloud.servicebroker.model.ServiceDefinition;
@@ -17,6 +20,8 @@ import java.util.stream.Collectors;
  * Created by Tomasz_Kozlowski on 3/7/2017.
  */
 @Configuration
+@ConditionalOnWebApplication
+@AutoConfigureAfter(WebMvcAutoConfiguration.class)
 public class SpringCloudCatalogConfig {
 
     @Bean
@@ -25,8 +30,7 @@ public class SpringCloudCatalogConfig {
     }
 
     @Bean
-    @Autowired
-    public static Catalog catalog(ServicesConfig servicesConfig) {
+    public Catalog catalog(ServicesConfig servicesConfig) {
         return new Catalog(
                 servicesConfig
                         .getServices()
