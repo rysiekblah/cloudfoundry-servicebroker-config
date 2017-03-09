@@ -27,13 +27,13 @@ cloudfoundry:
           redirect_uri: examplw11.com
         plan_updatable: true
         plans:
-        - id: basic
+        - id: 1d2b8576-88df-40d9-a1d3-0fa3ed72228c
           name: basic plan for map
           description: this is basic plan
           metadata:
             bullets:
             - feature#1
-            - feature#1
+            - feature#2
             costs:
             - amount:
                 cny: 120

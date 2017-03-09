@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.cloud.servicebroker.model.Plan;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -161,7 +162,32 @@ public class ServiceConfigCompleteSvcTest {
 
     @Test
     public void testPlan() {
+        List<PlanConfig> planConfigs = catalogConfig.getPlans();
+        assertThat(planConfigs, hasSize(1));
 
+        PlanConfig planConfig = planConfigs.get(0);
+
+        assertThat(planConfig.getId(), equalTo("1d2b8576-88df-40d9-a1d3-0fa3ed72228c"));
+        assertThat(planConfig.getName(), equalTo("basic plan for map"));
+        assertThat(planConfig.getDescription(), equalTo("this is basic plan"));
+        assertThat(planConfig.getBindable(), is(true));
+        assertThat(planConfig.isFree(), is(true));
+    }
+
+    @Test
+    public void testPlanMetadata() {
+        Map<String, Object> metadata = catalogConfig.getPlans().get(0).getMetadata().get();
+        assertThat((List<String>) metadata.get("bullets"), hasItems("feature#1", "feature#2"));
+        assertThat((List<PlanCost>) metadata.get("costs"), hasSize(2));
+
+        PlanCost planCost1 = ((List<PlanCost>) metadata.get("costs")).get(0);
+        PlanCost planCost2 = ((List<PlanCost>) metadata.get("costs")).get(1);
+
+        assertThat(planCost1.getAmount(), hasEntry("cny", "120"));
+        assertThat(planCost1.getUnit(), equalTo("MONTHLY"));
+
+        assertThat(planCost2.getAmount(), hasEntry("cny", "699"));
+        assertThat(planCost2.getUnit(), equalTo("YEARLY"));
     }
 
 }
