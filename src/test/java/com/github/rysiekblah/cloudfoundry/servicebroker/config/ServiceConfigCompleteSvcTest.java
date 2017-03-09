@@ -1,18 +1,13 @@
 package com.github.rysiekblah.cloudfoundry.servicebroker.config;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.jayway.jsonpath.JsonPath;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 import java.util.Map;
@@ -23,23 +18,19 @@ import static org.hamcrest.Matchers.*;
 /**
  * Created by Tomasz_Kozlowski on 3/6/2017.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = TestApplication.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = TestApplication.class)
 @ActiveProfiles("one-complete-service")
 public class ServiceConfigCompleteSvcTest {
 
     @Autowired
     private ServicesConfig servicesConfig;
 
-    private static String json;
+    public CatalogConfig catalogConfig;
 
     @Before
-    public void setUpClass() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        System.out.println(mapper.writeValueAsString(servicesConfig));
-        json = mapper.writeValueAsString(servicesConfig);
+    public void setUp() {
+        catalogConfig = servicesConfig.getServices().get(0);
     }
 
     @Test
@@ -47,27 +38,27 @@ public class ServiceConfigCompleteSvcTest {
 
         assertThat(
                 "services count",
-                ((List<Object>) JsonPath.read(json, "$.services[*]")).size(),
+                servicesConfig.getServices().size(),
                 is(1));
 
         assertThat(
                 "services.name",
-                JsonPath.read(json, "$.services[0].name"),
+                catalogConfig.getName(),
                 equalTo("service_1"));
 
         assertThat(
                 "services.id",
-                JsonPath.read(json, "$.services[0].id"),
+                catalogConfig.getId(),
                 equalTo("f7798cc3-b2fd-426f-9d7d-0deaf6b80365"));
 
         assertThat(
                 "services.description",
-                JsonPath.read(json, "$.services[0].description"),
+                catalogConfig.getDescription(),
                 equalTo("service_1 description"));
 
         assertThat(
                 "services.bindable",
-                JsonPath.read(json, "$.services[0].bindable"),
+                catalogConfig.isBindable(),
                 is(false)
         );
 
@@ -76,7 +67,7 @@ public class ServiceConfigCompleteSvcTest {
     @Test
     public void testCatalogOptionalFields() {
 
-        List<String> tags = JsonPath.read(json, "$.services[0].tags");
+        List<String> tags = catalogConfig.getTags();
         assertThat(
                 "services.tags size",
                 tags.size(),
@@ -86,7 +77,7 @@ public class ServiceConfigCompleteSvcTest {
                 tags,
                 hasItems("tag1_s1", "tag2_s1", "tag3_s1"));
 
-        List<String> requires = JsonPath.read(json, "$.services[0].requires");
+        List<String> requires = catalogConfig.getRequires();
         assertThat(
                 "services.requires count",
                 requires.size(),
@@ -98,14 +89,14 @@ public class ServiceConfigCompleteSvcTest {
 
         assertThat(
                 "services.plan_updateable",
-                JsonPath.read(json, "$.services[0].plan_updateable"),
+                catalogConfig.isPlan_updatable(),
                 is(true));
     }
 
     @Test
     public void testServiceMetadata() {
 
-        Map<String, Object> metadata = JsonPath.read(json, "$.services[0].metadata");
+        Map<String, Object> metadata = catalogConfig.getMetadata();
         Map<String, String> provider = (Map<String, String>) metadata.get("provider");
         Map<String, String> sales = (Map<String, String>) metadata.get("sales");
 
@@ -153,19 +144,19 @@ public class ServiceConfigCompleteSvcTest {
     @Test
     public void testDashboardClient() {
 
-        Map<String, String> dashboardClient = JsonPath.read(json, "$.services[0].dashboard");
+        DashboardClientConfig dashboardClient = catalogConfig.getDashboard();
 
         assertThat("services.dashboard.id",
-                dashboardClient,
-                hasEntry("id", "dashboard_1"));
+                dashboardClient.getId(),
+                is("dashboard_1"));
 
         assertThat("services.dashboard.secret",
-                dashboardClient,
-                hasEntry("secret", "SKJHI%^%$!!!"));
+                dashboardClient.getSecret(),
+                is("SKJHI%^%$!!!"));
 
         assertThat("services.dashboard.redirect_url",
-                dashboardClient,
-                hasEntry("redirect_uri", "examplw11.com"));
+                dashboardClient.getRedirect_uri(),
+                is("examplw11.com"));
     }
 
     @Test

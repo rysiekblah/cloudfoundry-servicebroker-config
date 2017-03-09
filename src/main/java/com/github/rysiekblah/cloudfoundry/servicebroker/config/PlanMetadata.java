@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.rysiekblah.cloudfoundry.servicebroker.config.json.EmptyListSerializer;
-import com.google.common.collect.Maps;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +38,8 @@ public class PlanMetadata {
         this.costs = costs;
     }
 
-    public Map<String, Object> getMetadata() {
-        Map<String, Object> map = Maps.newHashMap();
+    public Map<String, Object> get() {
+        Map<String, Object> map = new HashMap<>();
         map.put("bullets", bullets);
         map.put("costs", costs);
         return map;

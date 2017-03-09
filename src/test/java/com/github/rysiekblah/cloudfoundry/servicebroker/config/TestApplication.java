@@ -2,7 +2,6 @@ package com.github.rysiekblah.cloudfoundry.servicebroker.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 /**
  * Created by Tomasz_Kozlowski on 3/4/2017.
@@ -12,11 +11,6 @@ public class TestApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TestApplication.class, args);
-    }
-
-    @Bean
-    public ServicesConfig servicesConfig() {
-        return new ServicesConfig();
     }
 
 }

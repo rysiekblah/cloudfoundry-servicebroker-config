@@ -24,6 +24,9 @@ public class PlanConfig {
     private PlanMetadata metadata;
 
     @JsonSerialize
+    private boolean bindable;
+
+    @JsonSerialize
     private boolean free;
 
     public String getId() {
@@ -66,4 +69,11 @@ public class PlanConfig {
         this.free = free;
     }
 
+    public boolean getBindable() {
+        return bindable;
+    }
+
+    public void setBindable(boolean bindable) {
+        this.bindable = bindable;
+    }
 }

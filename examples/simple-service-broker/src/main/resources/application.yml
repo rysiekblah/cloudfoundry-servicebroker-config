@@ -1,3 +1,7 @@
+security:
+  user:
+    password: user
+
 cloudfoundry:
   servicebroker:
     catalog:
@@ -41,5 +45,5 @@ cloudfoundry:
             - amount:
                 cny: 699
               unit: YEARLY
-            free: true
-            bindable: true
+          free: true
+          bindable: true

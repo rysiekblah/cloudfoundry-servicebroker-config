@@ -1,13 +1,14 @@
 package com.github.rysiekblah.cloudfoundry.servicebroker.config.springcloud;
 
 import com.github.rysiekblah.cloudfoundry.servicebroker.config.CatalogConfig;
+import com.github.rysiekblah.cloudfoundry.servicebroker.config.DashboardClientConfig;
 import com.github.rysiekblah.cloudfoundry.servicebroker.config.PlanConfig;
 import com.github.rysiekblah.cloudfoundry.servicebroker.config.ServicesConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.cloud.servicebroker.model.Catalog;
+import org.springframework.cloud.servicebroker.model.DashboardClient;
 import org.springframework.cloud.servicebroker.model.Plan;
 import org.springframework.cloud.servicebroker.model.ServiceDefinition;
 import org.springframework.context.annotation.Bean;
@@ -35,26 +36,42 @@ public class SpringCloudCatalogConfig {
                 servicesConfig
                         .getServices()
                         .stream()
-                        .map(svc -> svcDef(svc))
+                        .map(svc -> convertCatalogConfig(svc))
                         .collect(Collectors.toList())
         );
     }
 
-    private static ServiceDefinition svcDef(CatalogConfig catalogConfig) {
+    private ServiceDefinition convertCatalogConfig(CatalogConfig catalogConfig) {
         return new ServiceDefinition(
                 catalogConfig.getId(),
                 catalogConfig.getName(),
                 catalogConfig.getDescription(),
                 catalogConfig.isBindable(),
-                convertPlanConfig(catalogConfig.getPlans())
+                catalogConfig.isPlan_updatable(),
+                convertPlanConfig(catalogConfig.getPlans()),
+                catalogConfig.getTags(),
+                catalogConfig.getMetadata(),
+                catalogConfig.getRequires(),
+                convertDashboard(catalogConfig.getDashboard())
         );
     }
 
-    private static List<Plan> convertPlanConfig(List<PlanConfig> planConfigs) {
+    private List<Plan> convertPlanConfig(List<PlanConfig> planConfigs) {
         return planConfigs
                 .stream()
-                .map(pc -> new Plan(pc.getId(), pc.getName(), pc.getDescription()))
+                .map(pc -> new Plan(
+                        pc.getId(),
+                        pc.getName(),
+                        pc.getDescription(),
+                        pc.getMetadata().get(),
+                        pc.isFree()))
                 .collect(Collectors.toList());
     }
+
+    private DashboardClient convertDashboard(DashboardClientConfig dashboard) {
+        return dashboard == null ? null :
+                new DashboardClient(dashboard.getId(), dashboard.getSecret(), dashboard.getRedirect_uri());
+    }
+
 
 }
