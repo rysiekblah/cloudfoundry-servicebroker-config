@@ -1,0 +1,7 @@
+---
+applications:
+- name: simple-service-broker
+  memory: 512M
+  instances: 1
+  host: simple-service-broker
+  path: build/libs/simple-service-broker.jar
