@@ -3,7 +3,7 @@ cloudfoundry:
     catalog:
       services:
       - name: service_1
-        id: service_1_id
+        id: 1d2b8576-88df-40d9-a1d3-0fa3ed72228c
         description: service_1 description
         tags: tag1_s1, tag2_s1, tag3_s1
         requires: syslog_drain
@@ -21,7 +21,7 @@ cloudfoundry:
           redirect_uri: examplw11.com
         plan_updatable: true
         plans:
-        - id: basic
+        - id: 1d2b8576-88df-40d9-a1d3-ffffffffffff
           name: basic plan for map
           description: this is basic plan
           metadata:
@@ -38,7 +38,7 @@ cloudfoundry:
             free: true
             bindable: true
       - name: service_2
-        id: service_2_id
+        id: 1d2b8576-88df-40d9-a1d3-eeeeeeeeeeee
         description: service_2 description
         tags: tag1_s2, tag2_s2, tag3_s2
         requires: syslog_drain
@@ -56,7 +56,7 @@ cloudfoundry:
           redirect_uri: examplw22.com
         plan_updatable: true
         plans:
-        - id: basic
+        - id: 1d2b8576-88df-40d9-a1d3-dddddddddddd
           name: basic plan for map
           description: this is basic plan
           metadata:
