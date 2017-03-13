@@ -1,12 +1,38 @@
 # cloudfoundry-servicebroker-config
-Library loads YAML catalog configuration for CloudFoundry Service Broker API
+Library is a sub-library for [spring-cloud-cloudfoundry-service-broker](https://github.com/spring-cloud/spring-cloud-cloudfoundry-service-broker). It loads YAML catalog configuration for CloudFoundry Service Broker API.
 
-## References
+## Usage
 
-- Catalog confiuration reference: https://docs.cloudfoundry.org/services/api.html#catalog-mgmt
-- Dashboard Client reference: https://docs.cloudfoundry.org/services/api.html#DObject
-- Plan reference: https://docs.cloudfoundry.org/services/api.html#PObject
-- Metadata reference: https://docs.cloudfoundry.org/services/catalog-metadata.html
+Using [spring-cloud-cloudfoundry-service-broker](https://github.com/spring-cloud/spring-cloud-cloudfoundry-service-broker) we have two create **Catalog** bean and fill. Example below. To make it more professional we can crate our config structure and load it from property file.
+
+Catalog object creation, which will be injected to pring-cloud-cloudfoundry-service-broker library:
+```Java
+@Configuration
+public class CatalogConfig {
+
+	@Bean
+	public Catalog catalog() {
+		return new Catalog(Collections.singletonList(
+				new ServiceDefinition(
+						"simple-service-broker",
+						"simple-service",
+						"A simple service broker implementation",
+						true,
+						false,
+						Collections.singletonList(
+								new Plan("simple-plan",
+										"default",
+										"This is a default plan.",
+										getPlanMetadata())),
+						Arrays.asList("simple-svc", "document"),
+						getServiceDefinitionMetadata(),
+						null,
+						null)));
+
+            ....
+```
+
+This library requires only YAML service-broker configuration file. Please look at simple example [simple-service-broker](https://github.com/rysiekblah/cloudfoundry-servicebroker-config/tree/master/examples/simple-service-broker)
 
 ## Details about YAML configuration schema
 
@@ -63,39 +89,13 @@ cloudfoundry:
             bindable: optional:boolean -  If specified, this takes precedence over the bindable attribute of the service.
 ```
 
-## Usage
+## References
 
-This library is integrated with [spring-cloud-cloudfoundry-service-broker](https://github.com/spring-cloud/spring-cloud-cloudfoundry-service-broker). Using spring-cloud-cloudfoundry-service-broker you have to create create your own config or hardcode it.
+- Catalog configuration reference: https://docs.cloudfoundry.org/services/api.html#catalog-mgmt
+- Dashboard Client reference: https://docs.cloudfoundry.org/services/api.html#DObject
+- Plan reference: https://docs.cloudfoundry.org/services/api.html#PObject
+- Metadata reference: https://docs.cloudfoundry.org/services/catalog-metadata.html
 
-Example:
-```Java
-@Configuration
-public class CatalogConfig {
-	
-	@Bean
-	public Catalog catalog() {
-		return new Catalog(Collections.singletonList(
-				new ServiceDefinition(
-						"mongodb-service-broker",
-						"mongodb",
-						"A simple MongoDB service broker implementation",
-						true,
-						false,
-						Collections.singletonList(
-								new Plan("mongo-plan",
-										"default",
-										"This is a default mongo plan.  All services are created equally.",
-										getPlanMetadata())),
-						Arrays.asList("mongodb", "document"),
-						getServiceDefinitionMetadata(),
-						null,
-						null)));
-            
-            ....
-```
+## Release plan
 
-Using this library **cloudfoundry-servicebroker-config** all you need is to add it to dependency in pom or gradle script and put your config YML to resources, or integrate it with config server. **It does everything for you, no coding in terms of configuration.**
-
-## Limitations
-
-TBD
+It will be released till Mar 20th, 2017.

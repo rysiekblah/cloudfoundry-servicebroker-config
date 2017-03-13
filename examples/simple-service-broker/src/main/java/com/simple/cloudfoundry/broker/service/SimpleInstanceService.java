@@ -1,5 +1,6 @@
 package com.simple.cloudfoundry.broker.service;
 
+import org.springframework.cloud.servicebroker.model.*;
 import org.springframework.cloud.servicebroker.service.ServiceInstanceService;
 import org.springframework.stereotype.Service;
 
