@@ -7,7 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.rysiekblah.cloudfoundry.servicebroker.config.json.EmptyListSerializer;
 import com.github.rysiekblah.cloudfoundry.servicebroker.config.json.EmptyMapSerializer;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -19,12 +22,18 @@ import java.util.Map;
 public class CatalogConfig {
 
     @JsonSerialize
+    @NotNull
+    @NotEmpty
     private String name;
 
     @JsonSerialize
+    @NotNull
+    @NotEmpty
     private String id;
 
     @JsonSerialize
+    @NotNull
+    @NotEmpty
     private String description;
 
     @JsonSerialize(nullsUsing = EmptyListSerializer.class)
@@ -34,7 +43,8 @@ public class CatalogConfig {
     private List<String> requires;
 
     @JsonSerialize
-    private boolean bindable;
+    @NotNull
+    private Boolean bindable;
 
     @JsonSerialize(nullsUsing = EmptyMapSerializer.class)
     private Map<String, Object> metadata;
@@ -46,8 +56,12 @@ public class CatalogConfig {
     @JsonProperty("plan_updateable")
     private boolean plan_updatable;
 
+    // TODO: why this works?
 //    @JsonSerialize(nullsUsing = EmptyListSerializer.class)
     @JsonIgnore
+    @NotNull
+    @NotEmpty
+    @Valid
     private List<PlanConfig> plans;
 
     public String getName() {
@@ -129,4 +143,5 @@ public class CatalogConfig {
     public void setPlans(List<PlanConfig> plans) {
         this.plans = plans;
     }
+
 }

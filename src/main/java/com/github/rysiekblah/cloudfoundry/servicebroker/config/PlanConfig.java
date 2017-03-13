@@ -3,6 +3,9 @@ package com.github.rysiekblah.cloudfoundry.servicebroker.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Tomasz_Kozlowski on 2/25/2017.
@@ -12,12 +15,18 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class PlanConfig {
 
     @JsonSerialize
+    @NotNull
+    @NotEmpty
     private String id;
 
     @JsonSerialize
+    @NotNull
+    @NotEmpty
     private String name;
 
     @JsonSerialize
+    @NotNull
+    @NotEmpty
     private String description;
 
     @JsonSerialize

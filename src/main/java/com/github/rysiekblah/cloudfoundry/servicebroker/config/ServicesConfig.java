@@ -7,6 +7,8 @@ import com.github.rysiekblah.cloudfoundry.servicebroker.config.json.EmptyListSer
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -20,6 +22,8 @@ import java.util.List;
 public class ServicesConfig {
 
     @JsonSerialize(nullsUsing = EmptyListSerializer.class)
+    @NotNull
+    @Valid
     private List<CatalogConfig> services;
 
     public List<CatalogConfig> getServices() {
