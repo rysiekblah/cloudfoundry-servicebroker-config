@@ -98,4 +98,4 @@ cloudfoundry:
 
 ## Release plan
 
-It will be released till Mar 20th, 2017.
+Pre-release
